@@ -10,7 +10,7 @@ import "./assets/css/styles.css";
 
 class App extends React.Component {
   componentDidMount() {
-    this.props.setupSocket();
+    this.props.setupSocket(this.props.token, this.props.user.id);
   }
 
   render() {
@@ -62,9 +62,15 @@ class App extends React.Component {
             <Route
               path="/"
               render={props => {
-                return (
-                  <Messenger />
-                )
+                if(!this.props.token){
+                  return (
+                    <Redirect to='/login' />
+                  )
+                }else{
+                  return (
+                    <Messenger />
+                  )
+                }
               }}
             />
           </Switch>
@@ -80,8 +86,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  setupSocket: () => {
-    dispatch(ChatActions.setupSocket());
+  setupSocket: (token, userId) => {
+    dispatch(ChatActions.setupSocket(token, userId));
   },
   logout: () => {
     dispatch(AuthActions.logout());

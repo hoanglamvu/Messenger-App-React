@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
+import * as AuthActions from '../../store/actions/authActions';
 
 class Sidebar extends Component {
     state = {
@@ -24,16 +25,24 @@ class Sidebar extends Component {
     render() {
         return (
             <div className="sidebar">
+                <button onClick={e => {
+                    this.props.logout();
+                }}>Log Out</button>
+
                 <div className="search-container">
+                    <div className="input-group">
                     <input className="form-control" placeholder="Search..." value={this.state.search} onChange={e => {
                         this.setState({ search: e.target.value });
                     }} />
-                    <button className="btn btn-primary" onClick={e => this.search()}>Search</button>
+                    <button className="btn btn-search" onClick={e => this.search()}><i className="zmdi zmdi-search"></i></button>
+                    </div>
                 </div>
                 {this.state.search ?
                     <ul className="thread-list">
                         <label>Results</label>
-                        {this.props.users.filter(u => u.id !== this.props.user.id).map((user, ui) => {
+                        {
+                            this.props.users &&
+                            this.props.users.filter(u => u.id !== this.props.user.id).map((user, ui) => {
                             return (
                                 <li key={ui}>
                                     <a onClick={e => {
@@ -54,7 +63,7 @@ class Sidebar extends Component {
                         {this.props.threads.map((thread, threadIndex) => {
                             return (
                                 <li>
-                                    <Link to="/thread">
+                                    <Link to={`/${thread.id}`}>
                                         <i className="zmdi zmdi-account-circle" />
                                         <h5>{thread.id}</h5>
                                         <p>This is the last message</p>
@@ -75,7 +84,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-
+    logout: () => {
+        dispatch(AuthActions.logout());
+    }
 })
 
 export default connect(

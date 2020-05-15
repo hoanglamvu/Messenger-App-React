@@ -20,6 +20,10 @@
         "type": "hasOne",
         "model": "Profile",
         "foreignKey": ""
+      },
+      "Messages": {
+        "type": "hasMany",
+        "model": "Message"
       }
     }
   },
@@ -50,7 +54,7 @@
     "dataSource": "db",
     "public": true
   },
-  "profile": {
+  "Profile": {
     "dataSource": "db",
     "public": true
   }

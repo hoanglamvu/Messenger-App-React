@@ -1,14 +1,18 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {withRouter, Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
 import Sidebar from '../partials/Sidebar';
 import ThreadView from '../partials/ThreadView';
 import ChatInput from '../partials/ChatInput';
 
+
 class Messenger extends Component {
-    render(){
+    render() {
         return (
             <div className="messenger-container">
+                <button onClick={e => {
+                    this.props.logout();
+                }}>Log Out</button>
                 <Sidebar />
                 <ThreadView />
                 <ChatInput />
